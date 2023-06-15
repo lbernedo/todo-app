@@ -48,30 +48,42 @@ const getTodos = (filtro = Filters.All) => {
 }
 /**
  * 
- * @param {*} desciption 
+ * @param {String} desciption 
  */
 const addTodo = (desciption) => {
-    throw new Error('function not implement');
+    // throw new Error('function not implement');
+    if (!desciption)
+        throw new Error('Description is requeried');
+    state.todos.push(new Todo(desciption));
 }
 
 /**
  * 
- * @param {*} todoId 
+ * @param {String} todoId 
  */
 const toggleTodo = (todoId) => {
-    throw new Error('function not implement');
+    // throw new Error('function not implement');
+    state.todos = state.todos.map(todo => {
+        if (todo.id === todoId) {
+            todo.done = !todo.done;
+        }
+        return todo;
+    });
 }
 
 const deleteTodo = (todoId) => {
-    throw new Error('function not implement');
+    // throw new Error('function not implement');
+    state.todos = state.todos.filter(todo => todo.id !== todoId);
 }
 
 const deleteCompleted = () => {
-    throw new Error('function not implement');
+    // throw new Error('function not implement');
+    state.todos = state.todos.filter(todo => !todo.done)
 }
 
 const setFilter = (newfilter = Filters.All) => {
-    throw new Error('function not implement');
+    // throw new Error('function not implement');
+    state.filters = newfilter;
 }
 
 const getCurrentFilter = () => {

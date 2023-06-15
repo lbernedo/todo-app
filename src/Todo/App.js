@@ -1,3 +1,4 @@
+import TodoStore from '../store/Todo.store';
 import html from './app.html?raw';
 
 
@@ -7,12 +8,16 @@ import html from './app.html?raw';
  */
 export const App = (elementId) => {
 
-
     // funcion autoinvocada que carga el html.
     (() => {
-        const app = document.getElementById(elementId);
-        // app.innerHTML = '<h2> hola Mundo</h2>';
+        const app = document.createElement('div');
+        //app.innerHTML = '<h2> hola Mundo</h2>';
         app.innerHTML = html;
-        console.log('hola mundo');
+        document.querySelector(elementId).append(app);
     })();
+
+    const displayTodo = () => {
+        const todos = TodoStore.getTodos(TodoStore.getCurrentFilter());
+
+    }
 }

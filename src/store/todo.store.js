@@ -11,8 +11,8 @@ const state = {
     todos: [
         new Todo('piedra del Tiempo'),
         new Todo('piedra del Espacio'),
-        new Todo('piedra del Realidad'),
-        new Todo('piedra del Realidad'),
+        new Todo('piedra de la Realidad'),
+        new Todo('piedra del Poder'),
     ],
     filters: Filters.All,
 }
@@ -36,6 +36,7 @@ const getTodos = (filtro = Filters.All) => {
     //throw new Error('function not implement');
     switch (filtro) {
         case Filters.All:
+            // return [...state.todos];
             return state.todos;
         case Filters.Completed:
             return state.todos.filter(todo => todo.done);
@@ -74,7 +75,8 @@ const setFilter = (newfilter = Filters.All) => {
 }
 
 const getCurrentFilter = () => {
-    throw new Error('function not implement');
+    // throw new Error('function not implement');
+    return state.filters;
 }
 
 export default {

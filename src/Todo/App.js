@@ -10,6 +10,8 @@ import { renderTodos } from './uses-cases/render-todos';
 const elementsId = {
     todoList: '.todo-list',
     imputTodo: '#new-todo-input',
+    todoFiltro: '.filtro',
+    clearCopleted: '.clear-completed',
 }
 export const App = (elementId) => {
 
@@ -29,6 +31,8 @@ export const App = (elementId) => {
 
     const newImputTodo = document.querySelector(elementsId.imputTodo);
     const todoListUl = document.querySelector(elementsId.todoList);
+    const filtroTodos = document.querySelectorAll(elementsId.todoFiltro);
+    const buttonCLearCompleted = document.querySelector(elementsId.clearCopleted);
 
     //Listeners
     //agregar un nuevo todo :
@@ -54,12 +58,23 @@ export const App = (elementId) => {
 
     //elimiar el todo :
     todoListUl.addEventListener('click', (event) => {
+        //evaluar si el elemento seleccionado tiene la clase destroy.
         const isDestroyElement = event.target.className === 'destroy';
+        //obtener el elemento mas cercano que tenga la propiedad data-id
         const element = event.target.closest('[data-id]');
+        //evaluar clase del elemento no es destroy o el elemento no existe.
         if (!isDestroyElement || !element) return;
+        //obtener el valor del id del Todo.
         const todoId = element.getAttribute('data-id');
+        //eliminar el Todo.
         TodoStore.deleteTodo(todoId);
+        //desplegar el todo.
         displayTodo();
     });
 
+    //se elimina los todos que esten completados.
+    buttonCLearCompleted.addEventListener('click', (event) => {
+        TodoStore.deleteCompleted();
+        displayTodo();
+    });
 }

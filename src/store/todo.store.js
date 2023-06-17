@@ -1,7 +1,7 @@
 import { Todo } from "../Todo/models/todo.model";
 
 // el Sotre tiene la funcionalidad de no recurrir al cuerpo html para obtenre la información.
-const Filters = {
+export const Filters = {
     All: 'all',
     Pending: 'pending',
     Completed: 'completed',
@@ -19,12 +19,26 @@ const state = {
 
 // funcion para inicializar el store
 const initSotre = () => {
+    loadStore();
     console.log('InitStore 🍍');
     console.log(state);
+
 }
 
 const loadStore = () => {
-    throw new Error('function not implement');
+    // throw new Error('function not implement');
+    //evaluar si existen elemento en el local storage.
+    if (!localStorage.getItem('state')) return;
+    //dividir los elementos del objeto en los datos para poder setearlos en las propiedades del objeto State.
+    const { todos = [], filter = Filters.All } = JSON.parse(localStorage.getItem('state'));
+
+    state.todos = todos;
+    state.filters = filter;
+
+}
+
+const saveTodoToLocalStorage = () => {
+    localStorage.setItem('state', JSON.stringify(state));
 }
 
 /**
@@ -36,8 +50,8 @@ const getTodos = (filtro = Filters.All) => {
     //throw new Error('function not implement');
     switch (filtro) {
         case Filters.All:
-            // return [...state.todos];
-            return state.todos;
+            return [...state.todos];
+        // return state.todos;
         case Filters.Completed:
             return state.todos.filter(todo => todo.done);
         case Filters.Pending:
@@ -55,6 +69,7 @@ const addTodo = (desciption) => {
     if (!desciption)
         throw new Error('Description is requeried');
     state.todos.push(new Todo(desciption));
+    saveTodoToLocalStorage();
 }
 
 /**
@@ -69,21 +84,25 @@ const toggleTodo = (todoId) => {
         }
         return todo;
     });
+    saveTodoToLocalStorage();
 }
 
 const deleteTodo = (todoId) => {
     // throw new Error('function not implement');
     state.todos = state.todos.filter(todo => todo.id !== todoId);
+    saveTodoToLocalStorage();
 }
 
 const deleteCompleted = () => {
     // throw new Error('function not implement');
-    state.todos = state.todos.filter(todo => !todo.done)
+    state.todos = state.todos.filter(todo => !todo.done);
+    saveTodoToLocalStorage();
 }
 
 const setFilter = (newfilter = Filters.All) => {
     // throw new Error('function not implement');
     state.filters = newfilter;
+    saveTodoToLocalStorage();
 }
 
 const getCurrentFilter = () => {

@@ -21,7 +21,7 @@ const state = {
 const initSotre = () => {
     loadStore();
     console.log('InitStore 🍍');
-    console.log(state);
+    // console.log(state);
 
 }
 
@@ -50,8 +50,8 @@ const getTodos = (filtro = Filters.All) => {
     //throw new Error('function not implement');
     switch (filtro) {
         case Filters.All:
-            return [...state.todos];
-        // return state.todos;
+            // return [...state.todos];
+            return state.todos;
         case Filters.Completed:
             return state.todos.filter(todo => todo.done);
         case Filters.Pending:

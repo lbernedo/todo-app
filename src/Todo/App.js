@@ -1,4 +1,4 @@
-import TodoStore from '../store/Todo.store';
+import TodoStore, { Filters } from '../store/Todo.store';
 import html from './app.html?raw';
 import { renderTodos } from './uses-cases/render-todos';
 
@@ -76,5 +76,28 @@ export const App = (elementId) => {
     buttonCLearCompleted.addEventListener('click', (event) => {
         TodoStore.deleteCompleted();
         displayTodo();
+    });
+
+    //recoremos todos los botones que coincide con la clase filtro.
+    filtroTodos.forEach(element => {
+    //por cada elemento creamos el listener del boton click
+        element.addEventListener('click', (event) => {
+            //por cada filtro que recorremos borramos la clase selected
+            filtroTodos.forEach( el => el.classList.remove('selected'));
+            //agregamos las clase al que está en el evento click
+            element.classList.add('selected');
+            //de acuerdo al tipo de texto del select realizar el tipo de listado.
+            switch (event.target.text) {
+                case 'Todos':
+                    TodoStore.setFilter(Filters.All);
+                    break;
+                case 'Pendientes':
+                    TodoStore.setFilter(Filters.Pending);
+                    break;
+                case 'Completados':
+                    TodoStore.setFilter(Filters.Completed);
+            }
+            displayTodo();
+        });
     });
 }

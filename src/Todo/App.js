@@ -1,6 +1,6 @@
 import TodoStore, { Filters } from '../store/Todo.store';
 import html from './app.html?raw';
-import { renderTodos } from './uses-cases/render-todos';
+import { renderTodos, renderPeding } from './uses-cases/';
 
 
 /**
@@ -12,12 +12,18 @@ const elementsId = {
     imputTodo: '#new-todo-input',
     todoFiltro: '.filtro',
     clearCopleted: '.clear-completed',
+    pedingCount: '#pending-count',
 }
 export const App = (elementId) => {
 
     const displayTodo = () => {
         const todos = TodoStore.getTodos(TodoStore.getCurrentFilter());
         renderTodos(elementsId.todoList, todos);
+        updatePendingCount();
+    }
+
+    const updatePendingCount = () => {
+        renderPeding(elementsId.pedingCount);
     }
 
     // funcion autoinvocada que carga el html.
@@ -80,10 +86,10 @@ export const App = (elementId) => {
 
     //recoremos todos los botones que coincide con la clase filtro.
     filtroTodos.forEach(element => {
-    //por cada elemento creamos el listener del boton click
+        //por cada elemento creamos el listener del boton click
         element.addEventListener('click', (event) => {
             //por cada filtro que recorremos borramos la clase selected
-            filtroTodos.forEach( el => el.classList.remove('selected'));
+            filtroTodos.forEach(el => el.classList.remove('selected'));
             //agregamos las clase al que está en el evento click
             element.classList.add('selected');
             //de acuerdo al tipo de texto del select realizar el tipo de listado.
